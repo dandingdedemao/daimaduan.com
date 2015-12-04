@@ -70,7 +70,6 @@ pre code {
   padding: 1px 5px;
   border-radius: 3px;
   margin-left: 5px;
-  font-size: 0.8em;
 }
 .bubble:after, .bubble:before {
   right: 100%;

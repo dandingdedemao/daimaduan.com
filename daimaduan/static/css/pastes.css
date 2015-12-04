@@ -27,15 +27,21 @@
   border-radius: 50%;
 }
 
-.view_pastes .page-header .action {
-  line-height: 36px;
-  font-size: 0.65em;
+.view_pastes.func_show .page-header {
+  margin-bottom: 5px;
 }
+.view_pastes.func_show .page-sub-header {
+  margin-bottom: 20px;
+}
+
 .action-like a {
   color: #AAB8C3;
-  vertical-align: middle;
 }
 .action-like a:hover,
 .action-unlike a {
   color: #E5214A
+}
+.action-like .fa,
+.action-unlike .fa {
+  font-size: 1.2em;
 }

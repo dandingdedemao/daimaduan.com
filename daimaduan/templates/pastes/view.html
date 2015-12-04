@@ -8,6 +8,14 @@
 
 {% block content %}
   <h3 class="page-header">
+    {{ paste.title }}
+
+    {% if not paste.is_private %}
+      <small><i class="fa fa-lock text-warning" title="私有"></i></small>
+    {% endif %}
+  </h3>
+
+  <div class="page-sub-header">
     <div class="actions pull-right">
       <span class="action action-like">
         <a href="#" title="喜欢">
@@ -17,14 +25,10 @@
       </span>
     </div>
 
-    <span class="fa {% if paste.is_user_favourited() %}fa-star{% else %}fa-star-empty{% endif %}" aria-hidden="true"></span>
-
-    {% if paste.is_private %}
-      <span class="fa fa-lock text-warning" title="私有"></span>
-    {% endif %}
-
-    {{ paste.title }}
-  </h3>
+    <span class="text-muted">
+      最后更新于 {{ paste.updated_at | time_passed }}
+    </span>
+  </div>
 
   {% for code in paste.codes %}
     {{ render_code(code) }}
