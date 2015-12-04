@@ -26,3 +26,16 @@
 #panel-paste-user .img-rounded {
   border-radius: 50%;
 }
+
+.view_pastes .page-header .action {
+  line-height: 36px;
+  font-size: 0.65em;
+}
+.action-like a {
+  color: #AAB8C3;
+  vertical-align: middle;
+}
+.action-like a:hover,
+.action-unlike a {
+  color: #E5214A
+}

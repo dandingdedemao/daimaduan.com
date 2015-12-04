@@ -1,3 +1,10 @@
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
 .hljs {
   background: none;
 }
@@ -54,4 +61,37 @@ pre code {
 /* Bootstrap Override */
 .page-header {
   margin-top: 0;
+}
+
+/* Common Bubble Style */
+.bubble {
+  position: relative;
+  border: 1px solid #ddd;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 5px;
+  font-size: 0.8em;
+}
+.bubble:after, .bubble:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.bubble:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-right-color: #ffffff;
+  border-width: 3px 5px 3px 0;
+  margin-top: -3px;
+  margin-right: -1px;
+}
+.bubble:before {
+  border-color: rgba(221, 221, 221, 0);
+  border-right-color: #dddddd;
+  border-width: 4px 5px 4px 0;
+  margin-top: -4px;
 }

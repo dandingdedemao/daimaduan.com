@@ -2,11 +2,21 @@
 
 {% from 'macros/pastes.html' import render_code %}
 {% from 'macros/common.html' import render_comment_form with context %}
+{% from 'macros/common.html' import fa_icon %}
 
 {% block title %}{{ paste.title }}{% endblock %}
 
 {% block content %}
   <h3 class="page-header">
+    <div class="actions pull-right">
+      <span class="action action-like">
+        <a href="#" title="喜欢">
+          {{ fa_icon('heart') }}
+        </a>
+        <span class="bubble">113</span>
+      </span>
+    </div>
+
     <span class="fa {% if paste.is_user_favourited() %}fa-star{% else %}fa-star-empty{% endif %}" aria-hidden="true"></span>
 
     {% if paste.is_private %}
