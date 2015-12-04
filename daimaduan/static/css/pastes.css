@@ -19,3 +19,10 @@
   border: 0;
   background: none;
 }
+
+#panel-paste-user .panel-heading {
+  border-bottom: 1px solid #DDDDDD;
+}
+#panel-paste-user .img-rounded {
+  border-radius: 50%;
+}

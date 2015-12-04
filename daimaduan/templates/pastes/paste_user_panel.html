@@ -1,0 +1,36 @@
+{% from 'macros/common.html' import panel_tag %}
+{% from 'macros/common.html' import fa_icon %}
+{% from 'macros/users.html' import render_user_avatar %}
+
+<div class="panel panel-default" id="panel-paste-user">
+  <div class="panel-heading text-center">
+    <div class="avatar-wrapper">
+      {{ render_user_avatar(paste.user, size=80) }}  
+    </div>
+    
+    <h4>{{ paste.user.username }}</h4>
+  </div>
+
+  <div class="list-group">
+    <a href="#" class="list-group-item">
+      <span class="badge">13</span>
+      {{ fa_icon('code', text='代码段') }}
+    </a>
+    <a href="#" class="list-group-item">
+      <span class="badge">7</span>
+      {{ fa_icon('user', text='关注') }}
+    </a>
+    <a href="#" class="list-group-item">
+      <span class="badge">12</span>
+      {{ fa_icon('user', text='粉丝') }}
+    </a>
+  </div>
+</div>
+
+{% call panel_tag(paste.title, with_body=False) %}
+  <div>{% if paste.user.id == request.user.id %}<span><a href="/paste/{{ paste.hash_id }}/edit">修改</a></span>{% endif %}</div>
+  {% if request.user %}<div>{% if request.user.is_in_favourites(paste) %}<a href="/unfavourite/{{ paste.hash_id }}">取消加入收藏</a>{% else %}<a href="/favourite/{{ paste.hash_id }}">加入收藏</a>{% endif %}</div>{% endif %}
+  <div>分享者: <a href="/user/{{ paste.user.username }}"><img src="{{ paste.user.gravatar_url(width=20) }}" />{{ paste.user.username }}</a></div>
+  <div>最后修改时间: {{ paste.updated_at | datetimeformat }}</div>
+  <div>{% for tag in paste.tags %}<a href="/tag/{{ tag }}" title="{{ tag }}" class="btn btn-xs btn-warning">{{ tag }}</a>{% endfor %}</div>
+{% endcall %}
