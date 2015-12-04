@@ -34,14 +34,7 @@
   margin-bottom: 20px;
 }
 
-.action-like a {
-  color: #AAB8C3;
-}
-.action-like a:hover,
-.action-unlike a {
+.action-like:hover,
+.action-unlike {
   color: #E5214A
-}
-.action-like .fa,
-.action-unlike .fa {
-  font-size: 1.2em;
 }
