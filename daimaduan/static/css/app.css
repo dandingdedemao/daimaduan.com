@@ -32,8 +32,6 @@ pre.panel-body {
 /** this is for highlightjs.line.numbers **/
 .hljs-line-numbers {
     text-align: right;
-    border-right: 1px solid #ccc;
-    margin-right: 10px;
     color: #999;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -41,6 +39,9 @@ pre.panel-body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.hljs-line-numbers + .hljs {
+  border-left: 1px solid #E7E7E7;
 }
 
 pre {
