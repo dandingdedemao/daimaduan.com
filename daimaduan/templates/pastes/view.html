@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% from 'macros/pastes.html' import render_code %}
+{% from 'macros/pastes.html' import like_paste_button %}
 {% from 'macros/common.html' import render_comment_form with context %}
-{% from 'macros/common.html' import fa_icon %}
 
 {% block title %}{{ paste.title }}{% endblock %}
 
@@ -17,9 +17,7 @@
 
   <div class="page-sub-header">
     <div class="actions pull-right">
-      <a href="#" title="喜欢" class="btn btn-default btn-xs action action-like">
-        {{ fa_icon('heart', text=113) }}
-      </a>
+      {{ like_paste_button(request.user, paste) }}
     </div>
 
     <span class="text-muted">

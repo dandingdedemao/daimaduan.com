@@ -28,6 +28,13 @@ function createLi(paste) {
       return li;
  }
 
+var app = {};
+
+app.faIcon = function(icon, text) {
+  var template = _.template('<i class="fa fa-<%= icon %>"></i> <%= text %>');
+  return template({ icon: icon, text: text });
+};
+
 $(document).ready(function() {
     hljs.initHighlightingOnLoad();
     hljs.initLineNumbersOnLoad();

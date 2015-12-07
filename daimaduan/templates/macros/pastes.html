@@ -1,4 +1,5 @@
 {% from 'macros/tags.html' import render_tag %}
+{% from 'macros/common.html' import fa_icon %}
 
 {% macro render_code(code) %}
 <div class="code panel panel-default" id="code-{{ code.id }}">
@@ -14,6 +15,18 @@
 </div>
 {% endmacro %}
 
+
 {% macro render_source_code(source) %}
 <pre><code>{{ source }}</code></pre>  
+{% endmacro %}
+
+
+{% macro like_paste_button(user, paste) %}
+  {% set liked = user and user.liked(paste) -%}
+  <a href="javascript:;"
+     title="{{ liked | ternary('取消喜欢', '喜欢') }}"
+     class="btn btn-default btn-xs action action-{{ liked | ternary('unlike', 'like') }}"
+     data-id="{{ paste.hash_id }}">
+    {{ fa_icon('heart', text=paste.likes_count) }}
+  </a>
 {% endmacro %}

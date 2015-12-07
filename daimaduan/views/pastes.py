@@ -12,8 +12,10 @@ from daimaduan.forms import PasteForm
 from daimaduan.models import Code
 from daimaduan.models import Paste
 from daimaduan.models import Rate
+from daimaduan.models import Like
 from daimaduan.models import Tag
 from daimaduan.utils import jsontify
+from daimaduan.utils import logger
 from daimaduan.utils import user_active_required
 
 
@@ -80,13 +82,25 @@ def create_post():
 @app.route('/paste/<hash_id>', name='pastes.show')
 @jinja2_view('pastes/view.html')
 def view(hash_id):
-    paste = Paste.objects(hash_id=hash_id).first()
-    if not paste:
-        abort(404)
-    paste.views += 1
-    paste.save()
+    paste = Paste.objects.get_or_404(hash_id=hash_id)
+    paste.increase_views()
+    
     return {'paste': paste}
 
+@app.post('/paste/<hash_id>/like')
+@login.login_required
+def view(hash_id):
+    paste = Paste.objects.get_or_404(hash_id=hash_id)
+    like = Like.objects(likeable=paste, user=request.user).first()
+    
+    if like is None:
+        Like(likeable=paste, user=request.user).save()
+        paste.increase_likes()
+
+    return {
+        'likes': paste.likes_count,
+        'liked': True
+    }
 
 @app.route('/paste/<hash_id>/edit', name='pastes.update')
 @login.login_required

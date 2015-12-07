@@ -39,8 +39,26 @@ function initGetMore() {
   });
 }
 
+  function updateLikePasteAction($action, changes) {
+    $action.toggleClass('action-like', !changes.liked);
+    $action.toggleClass('action-unlike', changes.liked);
+
+    $action.html(app.faIcon('heart', changes.likes));
+  }
+
+  function likePasteHandler() {
+    var $action = $(this);
+    var pasteId = $action.data('id');
+
+    $.post('/paste/' + pasteId + '/like').then(function(changes) {
+      updateLikePasteAction($action, changes);
+    });
+  }
+
   $(document).ready(function() {
     initCodes();
     initGetMore();
+
+    $('.action-like').on('click', likePasteHandler);
   });
 })();
