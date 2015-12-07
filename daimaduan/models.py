@@ -5,12 +5,40 @@ import hashlib
 import mongoengine
 
 from bottle import request
+from bottle import abort
 
 from daimaduan.jinja_ext import time_passed
+from mongoengine.base import ValidationError
+from mongoengine.queryset import MultipleObjectsReturned
+from mongoengine.queryset import DoesNotExist
+from mongoengine.queryset import QuerySet
+
+    
+# https://github.com/MongoEngine/flask-mongoengine/blob/master/flask_mongoengine/__init__.py
+class BaseQuerySet(QuerySet):
+    """
+    A base queryset with handy extras
+    """
+
+    def get_or_404(self, *args, **kwargs):
+        try:
+            return self.get(*args, **kwargs)
+        except (MultipleObjectsReturned, DoesNotExist, ValidationError):
+            abort(404)
+
+    def first_or_404(self):
+
+        obj = self.first()
+        if obj is None:
+            abort(404)
+
+        return obj
 
 
 class BaseDocument(mongoengine.Document):
-    meta = {'abstract': True, 'strict': False}
+    meta = {'abstract': True,
+            'strict': False,
+            'queryset_class': BaseQuerySet}
 
     created_at = mongoengine.DateTimeField(default=datetime.datetime.now)
     updated_at = mongoengine.DateTimeField(default=datetime.datetime.now)
@@ -61,6 +89,10 @@ class User(BaseDocument):
         return {'username': self.username,
                 'gravatar_url': self.gravatar_url(width=38)}
 
+    def liked(self, likeable):
+        like = Like.objects(likeable=likeable, user=self).first()
+        return like is not None
+
 
 class UserOauth(BaseDocument):
     user = mongoengine.ReferenceField('User')
@@ -99,6 +131,7 @@ class Paste(BaseDocument):
     tags = mongoengine.ListField(mongoengine.StringField())
     rate = mongoengine.IntField(default=0)
     views = mongoengine.IntField(default=0)
+    likes_count = mongoengine.IntField(default=0)
 
     def save(self, *args, **kwargs):
         if not self.hash_id:
@@ -110,6 +143,14 @@ class Paste(BaseDocument):
         if not self.title:
             self.title = u'代码集合: %s' % self.hash_id
         super(Paste, self).save(*args, **kwargs)
+
+    def increase_likes(self):
+        self.likes_count = self.likes_count + 1
+        self.save()
+
+    def increase_views(self):
+        self.views = self.views + 1
+        self.save()
 
     def to_json(self):
         return {'hash_id': self.hash_id,
@@ -141,3 +182,7 @@ class Rate(BaseDocument):
     user = mongoengine.ReferenceField(User)
     paste = mongoengine.ReferenceField(Paste)
     score = mongoengine.IntField(default=0)
+
+class Like(BaseDocument):
+    user = mongoengine.ReferenceField(User)
+    likeable = mongoengine.GenericReferenceField()
