@@ -13,7 +13,7 @@ from mongoengine.queryset import MultipleObjectsReturned
 from mongoengine.queryset import DoesNotExist
 from mongoengine.queryset import QuerySet
 
-    
+
 # https://github.com/MongoEngine/flask-mongoengine/blob/master/flask_mongoengine/__init__.py
 class BaseQuerySet(QuerySet):
     """
@@ -182,6 +182,7 @@ class Rate(BaseDocument):
     user = mongoengine.ReferenceField(User)
     paste = mongoengine.ReferenceField(Paste)
     score = mongoengine.IntField(default=0)
+
 
 class Like(BaseDocument):
     user = mongoengine.ReferenceField(User)

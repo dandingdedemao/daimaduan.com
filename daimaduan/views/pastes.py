@@ -84,15 +84,16 @@ def create_post():
 def view(hash_id):
     paste = Paste.objects.get_or_404(hash_id=hash_id)
     paste.increase_views()
-    
+
     return {'paste': paste}
+
 
 @app.post('/paste/<hash_id>/like')
 @login.login_required
-def view(hash_id):
+def like(hash_id):
     paste = Paste.objects.get_or_404(hash_id=hash_id)
     like = Like.objects(likeable=paste, user=request.user).first()
-    
+
     if like is None:
         Like(likeable=paste, user=request.user).save()
         paste.increase_likes()
@@ -101,6 +102,7 @@ def view(hash_id):
         'likes': paste.likes_count,
         'liked': True
     }
+
 
 @app.route('/paste/<hash_id>/edit', name='pastes.update')
 @login.login_required
