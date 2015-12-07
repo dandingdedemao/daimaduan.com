@@ -35,6 +35,7 @@
 }
 
 .action-like:hover,
-.action-unlike {
+.action-unlike,
+.action-unlike:hover {
   color: #E5214A
 }
