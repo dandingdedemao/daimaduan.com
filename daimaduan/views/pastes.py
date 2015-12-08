@@ -96,11 +96,27 @@ def like(hash_id):
 
     if like is None:
         Like(likeable=paste, user=request.user).save()
-        paste.increase_likes()
+        paste.increase_likes(1)
 
     return {
         'likes': paste.likes_count,
         'liked': True
+    }
+
+
+@app.post('/paste/<hash_id>/unlike')
+@login.login_required
+def unlike(hash_id):
+    paste = Paste.objects.get_or_404(hash_id=hash_id)
+    like = Like.objects(likeable=paste, user=request.user).first()
+
+    if like is not None:
+        like.delete()
+        paste.increase_likes(-1)
+
+    return {
+        'likes': paste.likes_count,
+        'liked': False
     }
 
 

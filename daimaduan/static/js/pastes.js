@@ -39,19 +39,16 @@ function initGetMore() {
   });
 }
 
-  function updateLikePasteAction($action, changes) {
-    $action.toggleClass('action-like', !changes.liked);
-    $action.toggleClass('action-unlike', changes.liked);
-
-    $action.html(app.faIcon('heart', changes.likes));
-  }
-
-  function likePasteHandler() {
+  function togglePasteLike() {
     var $action = $(this);
     var pasteId = $action.data('id');
+    var action  = $action.is('.action-like') ? 'like' : 'unlike';
+    var url     = '/paste/' + pasteId + '/' + action;
 
-    $.post('/paste/' + pasteId + '/like').then(function(changes) {
-      updateLikePasteAction($action, changes);
+    $.post(url).then(function(changes) {
+      $action.toggleClass('action-like', !changes.liked);
+      $action.toggleClass('action-unlike', changes.liked);
+      $action.html(app.faIcon('heart', changes.likes));
     });
   }
 
@@ -59,6 +56,6 @@ function initGetMore() {
     initCodes();
     initGetMore();
 
-    $('.action-like').on('click', likePasteHandler);
+    $('.action-like, .action-unlike').on('click', togglePasteLike);
   });
 })();

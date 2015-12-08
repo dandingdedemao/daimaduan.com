@@ -144,8 +144,8 @@ class Paste(BaseDocument):
             self.title = u'代码集合: %s' % self.hash_id
         super(Paste, self).save(*args, **kwargs)
 
-    def increase_likes(self):
-        self.likes_count = self.likes_count + 1
+    def increase_likes(self, count=1):
+        self.likes_count = self.likes_count + count
         self.save()
 
     def increase_views(self):
