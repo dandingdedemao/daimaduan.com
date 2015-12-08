@@ -70,6 +70,10 @@ class User(BaseDocument):
     def gravatar_url(self, width=80):
         return "http://cn.gravatar.com/avatar/%s?s=%d" % (hashlib.md5(self.email).hexdigest(), width)
 
+    @property
+    def likes_count(self):
+        return Like.objects(user=self).count()
+
     @classmethod
     def find_by_oauth(cls, provider, openid):
         """Find user that has oauth info with given provider and openid"""
